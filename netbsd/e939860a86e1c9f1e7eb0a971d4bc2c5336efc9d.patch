@@ -1,0 +1,52 @@
+diff --git a/src/lib/libast/astsa/mkast_sa b/src/lib/libast/astsa/mkast_sa
+index df448f2..bb8cd40 100755
+--- a/src/lib/libast/astsa/mkast_sa
++++ b/src/lib/libast/astsa/mkast_sa
+@@ -121,7 +121,7 @@ cat > _ast_.c <<'!'
+ 			m = flt_type[t].size;
+ 			printf("#define _ast_flt%d_t		%s\n", flt_type[t].size, flt_type[t].name);
+ 		}
+-		printf("#define _ast_fltmax_t		_ast_flt%d_t\n", m);
++		printf("#define _ast_fltmax_t		long double\n", m);
+ 		if (m == sizeof(double))
+ 			printf("#define _ast_fltmax_double		1\n");
+ 		return 0;
+diff --git a/src/lib/libast/features/common b/src/lib/libast/features/common
+index 89935cc..276f59c 100644
+--- a/src/lib/libast/features/common
++++ b/src/lib/libast/features/common
+@@ -417,7 +417,7 @@ tst	- -DN=1 - -DN=0 output{
+ 			m = flt_type[t].size;
+ 			printf("#define _ast_flt%d_t		%s\n", flt_type[t].size, flt_type[t].name);
+ 		}
+-		printf("#define _ast_fltmax_t		_ast_flt%d_t\n", m);
++		printf("#define _ast_fltmax_t		long double\n", m);
+ 		if (m == sizeof(double))
+ 			printf("#define _ast_fltmax_double		1\n");
+ 		return 0;
+diff --git a/src/lib/libast/include/ast.h b/src/lib/libast/include/ast.h
+index d29f26e..c56c7d2 100644
+--- a/src/lib/libast/include/ast.h
++++ b/src/lib/libast/include/ast.h
+@@ -368,7 +368,7 @@ extern int		strnacmp(const char*, const char*, size_t);
+ extern char*		strncopy(char*, const char*, size_t);
+ extern int		strnpcmp(const char*, const char*, size_t);
+ extern double		strntod(const char*, size_t, char**);
+-extern _ast_fltmax_t	strntold(const char*, size_t, char**);
++extern double	strntold(const char*, size_t, char**);
+ extern long		strntol(const char*, size_t, char**, int);
+ extern intmax_t		strntoll(const char*, size_t, char**, int);
+ extern long		strnton(const char*, size_t, char**, char*, int);
+diff --git a/src/lib/libast/include/sfio.h b/src/lib/libast/include/sfio.h
+index fd0bc11..0b8a8b8 100644
+--- a/src/lib/libast/include/sfio.h
++++ b/src/lib/libast/include/sfio.h
+@@ -43,7 +43,7 @@ typedef struct _sfdisc_s	Sfdisc_t;
+ #define Sfoff_t		intmax_t
+ #define Sflong_t	intmax_t
+ #define Sfulong_t	uintmax_t
+-#define Sfdouble_t	_ast_fltmax_t
++#define Sfdouble_t	double
+ 
+ typedef ssize_t		(*Sfread_f)_ARG_((Sfio_t*, Void_t*, size_t, Sfdisc_t*));
+ typedef ssize_t		(*Sfwrite_f)_ARG_((Sfio_t*, const Void_t*, size_t, Sfdisc_t*));
